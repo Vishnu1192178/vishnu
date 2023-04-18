@@ -1,0 +1,65 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <ctype.h>
+
+#define ALPHABET_SIZE 26
+
+int main() {
+
+    char file_name[50] = "data.txt";
+
+    char stats_file_name[50] = "statistics.txt";
+
+    int alphabet_count[ALPHABET_SIZE] = {0};
+
+    char ch;
+
+    FILE *fp, *stats_fp;
+
+    fp = fopen(file_name, "r");
+
+    if (fp == NULL) {
+
+        printf("Error opening file.");
+
+        exit(1);
+
+    }
+
+    while ((ch = fgetc(fp)) != EOF) {
+
+        if (isalpha(ch)) {
+
+            ch = toupper(ch);
+
+            alphabet_count[ch - 'A']++;
+
+        }
+
+    }
+
+    fclose(fp);
+
+    stats_fp = fopen(stats_file_name, "w");
+
+    if (stats_fp == NULL) {
+
+        printf("Error creating file.");
+
+        exit(1);
+
+    }
+
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+
+        fprintf(stats_fp, "%c: %d\n", i + 'A', alphabet_count[i]);
+
+    }
+
+    fclose(stats_fp);
+
+    return 0;
+
+Footer
